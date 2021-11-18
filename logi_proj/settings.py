@@ -77,11 +77,17 @@ WSGI_APPLICATION = 'logi_proj.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
+# <<<<<<< HEAD
         'NAME': 'myproject',
         'USER':'seller',
         'PASSWORD': 'seller',
         'HOST':"localhost",
         'PORT':"",
+# =======
+#         'NAME': 'logi',
+#         'HOST': 'localhost',
+#         'PORT': '',
+# >>>>>>> 23e711f0d188a43a745290a6935fad66d2782d9b
     }
 }
 
