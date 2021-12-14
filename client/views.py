@@ -10,6 +10,9 @@ def dictfetchall(cursor):
             for row in cursor.fetchall() 
     ]
 
+def client_home(request):
+    return render(request, 'ClientMenu.html')
+
 def clients(request):
     with connection.cursor() as cursor:
         # query goes here as string
