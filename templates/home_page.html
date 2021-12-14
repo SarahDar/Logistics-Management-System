@@ -2,34 +2,21 @@
 <html lang="en">
    <head>
       <meta charset="utf-8">
-      <title>My HTML page</title>
-      {% load static %}
-      <link rel="stylesheet" href="static/css/home_page.css">
+      <title>LMS Home Page</title>
+      <link rel="stylesheet" href="home_page.css">
    </head>
    <body>
-      <h1>Logistics Management System</h1>
-      <p> Select which user type best describes you
-      </p>
-      <button
-      onclick="window.location.href='https://www.google.com/search?q=button&source=lnms&tbm=isch&sa=X&ved=2ahUKEwinlLr-rsn0AhXBy6QKHd5HBocQ_AUoAXoECAMQAw&biw=1280&bih=688&dpr=2'">Buyer
-      
-   </button>
-    <button
-      onclick="window.location.href='https://www.google.com/search?q=button&source=lnms&tbm=isch&sa=X&ved=2ahUKEwinlLr-rsn0AhXBy6QKHd5HBocQ_AUoAXoECAMQAw&biw=1280&bih=688&dpr=2'">Seller
-      
-   </button>
-    <button
-      onclick="window.location.href='https://www.google.com/search?q=button&source=lnms&tbm=isch&sa=X&ved=2ahUKEwinlLr-rsn0AhXBy6QKHd5HBocQ_AUoAXoECAMQAw&biw=1280&bih=688&dpr=2'">Rider
-      
-   </button>
-    <button
-      onclick="window.location.href='https://www.google.com/search?q=button&source=lnms&tbm=isch&sa=X&ved=2ahUKEwinlLr-rsn0AhXBy6QKHd5HBocQ_AUoAXoECAMQAw&biw=1280&bih=688&dpr=2'">Warehouse Handler
-      
-   </button>
-    <button
-      onclick="window.location.href='https://www.google.com/search?q=button&source=lnms&tbm=isch&sa=X&ved=2ahUKEwinlLr-rsn0AhXBy6QKHd5HBocQ_AUoAXoECAMQAw&biw=1280&bih=688&dpr=2'">Company
-      
-   </button>
-      
-   </body>
+       <form>
+            <h1>LMS</h1>
+            <h1>Logistic Management System</h1>
+            <p>
+            Continue as:
+            </p>
+            <button class="btn"><a href="buyer.html">Buyer</a></button>
+            <button class="btn"><a href="login.html">Seller</a></button>
+            <button class="btn"><a href="login.html">Rider</a></button>
+            <button class="btn"><a href="login.html">Warehouse Handler</a></button>
+            <button class="btn"><a href="login.html">Company</a></button>
+        </form>
+    </body>
 </html>
