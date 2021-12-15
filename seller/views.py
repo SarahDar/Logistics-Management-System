@@ -10,14 +10,14 @@ def dictfetchall(cursor):
             for row in cursor.fetchall() 
     ]
 
-def home_wargs(request, username):
+def home_wargs(request, id):
     # for testing purposes, we are returning obtain seller related product information
     with connection.cursor() as cursor:
-        query = "SELECT * FROM Seller WHERE sellerID=\"%s\";" % username
+        query = "SELECT * FROM Seller WHERE sellerID=\"%s\";" % id
         cursor.execute(query)
         rows = dictfetchall(cursor)
 
-    request.session["username"] = username
+    request.session["ID"] = id
 
     return render(request, 'SellerMenu.html')
 
@@ -52,10 +52,10 @@ def seller_get_clientinfo(request):
 
 # seller check for updates
 def seller_check_updates(request):
-    data = request.session["username"]
-
+    session_id = request.session["ID"]
+    
     with connection.cursor() as cursor:
-        query = ""
+        query = "SELECT trackingID, warehouseID, currentLocation, productRoute, paymentStatus, price FROM Product WHERE sellerID = \"%s\";" % session_id
         cursor.execute(query)
         rows = dictfetchall(cursor)
 
