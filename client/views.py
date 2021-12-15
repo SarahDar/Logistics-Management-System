@@ -13,6 +13,22 @@ def dictfetchall(cursor):
 def client_home(request):
     return render(request, 'ClientMenu.html')
 
+def client_track_pack(request): 
+    return render(request, 'ClientTrackPackages.html')
+
+def client_seller_info(request): #TODO: take input
+    return render(request, 'ClientObtainSellerInfo.html')
+
+def client_prod_details(request): #TODO: take input
+    return render(request, 'ClientTrackProductDets.html')
+
+def client_rider_info(request): #TODO: take input
+    return render(request, 'ClientTrackRiderInfo.html')
+
+def client_currentloc(request): #TODO: take input
+    return render(request, 'ClientTrackCurrentLoc.html')
+
+
 def clients(request):
     with connection.cursor() as cursor:
         # query goes here as string
