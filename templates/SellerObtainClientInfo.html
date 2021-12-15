@@ -11,18 +11,17 @@
     <h2>Seller</h2>
     <h3>Obtain Client Information</h3><br>       
        <p>Please enter the tracking ID of the client you want to know about</p>
+       <form>
+           {% csrf_token %}
         <label><b>ID</b></label>    
-        <input type="text" name="ID" id="ID" placeholder="Tracking ID">  
+        <input type="text" name="trackingid" id="ID" placeholder="Tracking ID">  <br>
+        <input type="Submit"> 
+    </form>
         <br>   
            
         
         <!--  <input type="button" name="log" id="log" value="Log In Here"> -->
         
-    
-    <a href = "SellerObtainClientInfoResult.html" >
-     <button>Search</button>
-     </a>
-
            
      
   
