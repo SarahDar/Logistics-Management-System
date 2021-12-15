@@ -20,3 +20,11 @@ def seller_get_clientinfo(request):
 
 def seller_check_updates(request):
     return render(request, 'SellerCheckUpdates.html')
+
+def authenticate(username, password):
+    with connection.cursor() as cursor:
+        query = "SELECT userPassword WHERE userName=%s" % username
+        cursor.execute(query)
+        rows = dictfetchall(cursor)
+
+    print(rows)
