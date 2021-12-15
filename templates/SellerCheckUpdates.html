@@ -10,8 +10,8 @@
       <h2>Seller</h2>
       <h3>Updates On Orders</h3>
       <h4>Result</h4>
-      
-      {% for entry in data %}
+
+      {% for i in data %}
       <div> {{ i.trackingID }} - {{ i.warehouseID }} - {{ i.currentLocation }}- {{ i.productRoute }} - {{ i.paymentStatus }} - {{ i.price }} </div>
       {% endfor %}
    </body>

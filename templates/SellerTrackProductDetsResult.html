@@ -11,6 +11,8 @@
       <h3>Track Packages</h3>
       <h4>Product Details</h4>
       <h5>Result</h5>
-      
+      {% for i in data %}
+      <div> {{i.trackingID}} - {{i.sellerID}}- {{i.warehouseID}}- {{i.currentLocation}}- {{i.productRoute}}- {{i.paymentStatus}}- {{i.price}}- {{i.clientPhoneNumber}} </div>
+      {% endfor %}
    </body>
 </html>
