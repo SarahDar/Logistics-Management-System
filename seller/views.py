@@ -3,6 +3,8 @@ from django.db import connection
 from django.contrib import messages
 
 # Create your views here.
+
+# helper function
 def dictfetchall(cursor): 
     desc = cursor.description 
     return [
@@ -10,6 +12,8 @@ def dictfetchall(cursor):
             for row in cursor.fetchall() 
     ]
 
+
+################## HOME PAGE STUFF ############################
 def home_wargs(request, id):
     # for testing purposes, we are returning obtain seller related product information
     with connection.cursor() as cursor:
@@ -39,7 +43,9 @@ def login(request):
     else:
         return render(request, 'SellerLogin.html')
 
-# seller track specific package
+
+################################ SELLER TRACK PACKAGES ###################################
+
 def seller_track_pack(request):
     if request.method=='POST':
         product_id = request.POST['productid']
@@ -54,14 +60,15 @@ def seller_track_pack_res(request, prod_id):
         rows = dictfetchall(cursor)
 
     # only one row so we index and get first
-    if not rows:
-        row = None
-    else:
-        row = rows[0]
-    return render(request, "SellerTrackProductDetsResult.html", {'data': row})
+    # if not rows:
+    #     row = None
+    # else:
+    #     row = rows[0]
+    return render(request, "SellerTrackProductDetsResult.html", {'data': rows})
 
 
-# seller check for updates
+########## SELLER CHECK FOR UPDATES #######################
+
 def seller_check_updates(request):
     session_id = request.session["ID"]
 
@@ -72,7 +79,9 @@ def seller_check_updates(request):
 
     return render(request, 'SellerCheckUpdates.html', {'data': rows})
 
-# seller get client information
+
+####################### SELLER GET CLIENT INFORMATION ################################
+
 def seller_client_info(request):
     if request.method=='POST':
         product_id = request.POST['productid']
@@ -83,7 +92,7 @@ def seller_client_info(request):
 def seller_client_result(request, product_id):
 
     with connection.cursor() as cursor:
-        query = "SELECT clientPhoneNumber FROM ClientProduct WHERE trackingID=\"%d\";" % product_id
+        query = "SELECT clientPhoneNumber FROM ClientProduct WHERE trackingID=\"%s\";" % product_id
         cursor.execute(query)
         rows = dictfetchall(cursor)
  # only one row so we index and get first
@@ -93,6 +102,7 @@ def seller_client_result(request, product_id):
         row = rows[0]
 
     phoneNum = row["clientPhoneNumber"]
+    print(phoneNum)
     # row has clientPhoneNumber
     with connection.cursor() as cursor:
         query = "SELECT * FROM Client WHERE phoneNumber=%d;" % phoneNum
