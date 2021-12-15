@@ -17,8 +17,6 @@ def home_wargs(request, id):
         cursor.execute(query)
         rows = dictfetchall(cursor)
 
-    request.session["ID"] = id
-
     return render(request, 'SellerMenu.html')
 
 
@@ -32,6 +30,7 @@ def login(request):
 
         if logged_in:
             id = get_id(username)
+            request.session["ID"] = id
             return home_wargs(request, id)
         else:
             messages.info(request, "invalid credentials")
@@ -42,8 +41,21 @@ def login(request):
 
 # seller track specific package
 def seller_track_pack(request):
-    return render(request, 'SellerTrackProductDets.html')
+    if request.method=='POST':
+        product_id = request.POST['productid']
+        return seller_track_pack_res(request, product_id)
+    else:    
+        return render(request, 'SellerTrackProductDets.html')
 
+def seller_track_pack_res(request, prod_id):
+    with connection.cursor() as cursor:
+        query = "SELECT *  FROM Product WHERE trackingID=\"%s\";" % prod_id
+        cursor.execute(query)
+        rows = dictfetchall(cursor)
+
+    # only one row so we index and get first
+    row = rows[0]
+    return render(request, "SellerTrackProductDetsResultz.html", {'data': row})
 
 # seller get client information
 def seller_get_clientinfo(request):
@@ -53,7 +65,7 @@ def seller_get_clientinfo(request):
 # seller check for updates
 def seller_check_updates(request):
     session_id = request.session["ID"]
-    
+
     with connection.cursor() as cursor:
         query = "SELECT trackingID, warehouseID, currentLocation, productRoute, paymentStatus, price FROM Product WHERE sellerID = \"%s\";" % session_id
         cursor.execute(query)
