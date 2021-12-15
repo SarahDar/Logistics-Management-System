@@ -11,7 +11,7 @@ CREATE TABLE SellerProduct (sellerID char(10),
 DESCRIBE SellerProduct;
 
 DROP TABLE IF EXISTS ClientProduct;
-CREATE TABLE ClientProduct (clientPhoneNumber int(11),
+CREATE TABLE ClientProduct (clientPhoneNumber char(11),
                             productID char(10),
                             deliveryAddress char(70),
                             CONSTRAINT identifier PRIMARY KEY (clientPhoneNumber, productID));
@@ -25,7 +25,7 @@ CREATE TABLE LoginInfo (ID char(10),
 DESCRIBE LoginInfo;
 
 DROP TABLE IF EXISTS Client;
-CREATE TABLE Client(phoneNumber int(11),
+CREATE TABLE Client(phoneNumber char(11),
                     clientAddress char(70),
                     city char(15),
                     CONSTRAINT identifier PRIMARY KEY (phoneNumber));
@@ -34,7 +34,7 @@ DESCRIBE Client;
 DROP TABLE IF EXISTS Seller;
 CREATE TABLE Seller(sellerID char(10),
                     sellerName char(30),
-                    phoneNumber int(11),
+                    phoneNumber char(11),
                     city char(15),
                     CONSTRAINT identifier PRIMARY KEY (sellerID));
 DESCRIBE Seller;
@@ -53,7 +53,7 @@ CREATE TABLE Product   (trackingID char(10),
                         productRoute char(30),
                         paymentStatus boolean,
                         price decimal(10,2),
-                        clientPhoneNumber int(11),
+                        clientPhoneNumber char(11),
 
                         CONSTRAINT identifier PRIMARY KEY (trackingID));
 DESCRIBE Product;

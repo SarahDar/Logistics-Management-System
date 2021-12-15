@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'client',
     'seller',
     'home',
+    'warehouse',
     'rest_framework'
 ]
 
