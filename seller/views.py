@@ -10,9 +10,6 @@ def dictfetchall(cursor):
             for row in cursor.fetchall() 
     ]
 
-def home(request):
-    return render(request, 'SellerMenu.html')
-
 def home_wargs(request, username):
     # for testing purposes, we are returning obtain seller related product information
     with connection.cursor() as cursor:
@@ -20,49 +17,76 @@ def home_wargs(request, username):
         cursor.execute(query)
         rows = dictfetchall(cursor)
 
-    return render(request, 'SellerTrackPackages.html', {'data': rows})
+    request.session["username"] = username
+
+    return render(request, 'SellerMenu.html')
 
 
 def login(request):
     if request.method=='POST':
         username = request.POST['username']
         password = request.POST['password']
+        # username = 'sellerID'
 
         logged_in = authenticate(username, password)
+
         if logged_in:
-            print("authentication was successful")
-            return redirect('/seller/home')
+            id = get_id(username)
+            return home_wargs(request, id)
         else:
             messages.info(request, "invalid credentials")
-            return redirect('/')
+            return redirect('/seller')
 
     else:
         return render(request, 'SellerLogin.html')
 
+# seller track specific package
 def seller_track_pack(request):
     return render(request, 'SellerTrackProductDets.html')
 
+
+# seller get client information
 def seller_get_clientinfo(request):
     return render(request, 'SellerObtainClientInfo.html')
 
+
+# seller check for updates
 def seller_check_updates(request):
-    return render(request, 'SellerCheckUpdates.html')
+    data = request.session["username"]
+
+    with connection.cursor() as cursor:
+        query = ""
+        cursor.execute(query)
+        rows = dictfetchall(cursor)
+
+    return render(request, 'SellerCheckUpdates.html', {'data': rows})
+
+#### HELPER FUNCTIONS
 
 def authenticate(username, password):
     if username == "":
         return False
 
     with connection.cursor() as cursor:
-        query = "SELECT userPassword FROM LoginInfo WHERE LoginInfo.ID=\"%s\";" % username
+        query = "SELECT userPassword FROM LoginInfo WHERE LoginInfo.userName=\"%s\";" % username
         cursor.execute(query)
         rows = dictfetchall(cursor)
     
     if rows is not None:
-        print(rows)
-        row = rows[0]
-        if row["userPassword"] == password:
-            return True
-        else:
-            return False
+        for row in rows:
+            if row["userPassword"] == password:
+                return True
+            else:
+                return False
+        return False
     else:
         return False
+
+def get_id(username):
+    with connection.cursor() as cursor:
+        query = "SELECT ID FROM LoginInfo WHERE LoginInfo.userName=\"%s\";" % username
+        cursor.execute(query)
+        rows = dictfetchall(cursor)
+
+    id = rows[0]
+    return id["ID"]

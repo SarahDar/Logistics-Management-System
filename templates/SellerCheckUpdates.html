@@ -11,5 +11,8 @@
       <h3>Updates On Orders</h3>
       <h4>Result</h4>
       
+      {% for entry in data %}
+      <div>{{ i.phoneNumber }} - {{ i.clientAddress }} - {{ i.city }}</div>
+      {% endfor %}
    </body>
 </html>
