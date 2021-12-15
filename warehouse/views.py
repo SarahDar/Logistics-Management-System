@@ -16,12 +16,13 @@ def login(request):
     if request.method=='POST':
         username = request.POST['ID']
         password = request.POST['pass']
-        return redirect("/warehouse/home")
-        # logged_in = authenticate(username, password)
-        # if logged_in:
-        #     return redirect("/warehouse/home")
-        # else:
-        #     messages.info(request, "invalid credentials")
+        # return redirect("/warehouse/home")
+        logged_in = authenticate(username, password)
+        if logged_in:
+            return redirect("/warehouse/home")
+        else:
+            messages.info(request, "invalid credentials")
+            
     else:
         return render(request, 'WarehouseLogin.html')
     
