@@ -44,7 +44,7 @@ def seller_track_pack(request):
     if request.method=='POST':
         product_id = request.POST['productid']
         return seller_track_pack_res(request, product_id)
-    else:    
+    else:
         return render(request, 'SellerTrackProductDets.html')
 
 def seller_track_pack_res(request, prod_id):
@@ -54,12 +54,11 @@ def seller_track_pack_res(request, prod_id):
         rows = dictfetchall(cursor)
 
     # only one row so we index and get first
-    row = rows[0]
-    return render(request, "SellerTrackProductDetsResultz.html", {'data': row})
-
-# seller get client information
-def seller_get_clientinfo(request):
-    return render(request, 'SellerObtainClientInfo.html')
+    if not rows:
+        row = None
+    else:
+        row = rows[0]
+    return render(request, "SellerTrackProductDetsResult.html", {'data': row})
 
 
 # seller check for updates
@@ -72,6 +71,35 @@ def seller_check_updates(request):
         rows = dictfetchall(cursor)
 
     return render(request, 'SellerCheckUpdates.html', {'data': rows})
+
+# seller get client information
+def seller_client_info(request):
+    if request.method=='POST':
+        product_id = request.POST['productid']
+        return seller_client_result(request, product_id)
+    else:
+        return render(request, 'SellerObtainClientInfo.html')
+
+def seller_client_result(request, product_id):
+
+    with connection.cursor() as cursor:
+        query = "SELECT clientPhoneNumber FROM ClientProduct WHERE trackingID=\"%d\";" % product_id
+        cursor.execute(query)
+        rows = dictfetchall(cursor)
+ # only one row so we index and get first
+    if not rows:
+        row = None
+    else:
+        row = rows[0]
+
+    phoneNum = row["clientPhoneNumber"]
+    # row has clientPhoneNumber
+    with connection.cursor() as cursor:
+        query = "SELECT * FROM Client WHERE phoneNumber=%d;" % phoneNum
+        cursor.execute(query)
+        data = dictfetchall(cursor)
+    data = data[0]
+    return render(request, "SellerObtainClientInfoResult.html", {'data': data})
 
 #### HELPER FUNCTIONS
 
