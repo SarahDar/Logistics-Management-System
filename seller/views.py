@@ -12,7 +12,6 @@ def dictfetchall(cursor):
             for row in cursor.fetchall() 
     ]
 
-
 ################## HOME PAGE STUFF ############################
 def home_wargs(request, id):
     # for testing purposes, we are returning obtain seller related product information
@@ -22,7 +21,6 @@ def home_wargs(request, id):
         rows = dictfetchall(cursor)
 
     return render(request, 'SellerMenu.html')
-
 
 def login(request):
     if request.method=='POST':
@@ -37,12 +35,10 @@ def login(request):
             request.session["ID"] = id
             return home_wargs(request, id)
         else:
-            messages.info(request, "invalid credentials")
             return redirect('/seller') # add 
 
     else:
         return render(request, 'SellerLogin.html')
-
 
 ################################ SELLER TRACK PACKAGES ###################################
 
@@ -83,8 +79,9 @@ def seller_check_updates(request):
 ####################### SELLER GET CLIENT INFORMATION ################################
 
 def seller_client_info(request):
+
     if request.method=='POST':
-        product_id = request.POST['productid']
+        product_id = request.POST['trackingid']
         return seller_client_result(request, product_id)
     else:
         return render(request, 'SellerObtainClientInfo.html')
@@ -92,24 +89,27 @@ def seller_client_info(request):
 def seller_client_result(request, product_id):
 
     with connection.cursor() as cursor:
-        query = "SELECT clientPhoneNumber FROM ClientProduct WHERE trackingID=\"%s\";" % product_id
+        query = "SELECT clientPhoneNumber FROM ClientProduct WHERE productID=\"{}\";".format(product_id)
         cursor.execute(query)
         rows = dictfetchall(cursor)
  # only one row so we index and get first
     if not rows:
         row = None
+        success = False
     else:
         row = rows[0]
 
-    phoneNum = row["clientPhoneNumber"]
-    print(phoneNum)
-    # row has clientPhoneNumber
-    with connection.cursor() as cursor:
-        query = "SELECT * FROM Client WHERE phoneNumber=%d;" % phoneNum
-        cursor.execute(query)
-        data = dictfetchall(cursor)
-    data = data[0]
-    return render(request, "SellerObtainClientInfoResult.html", {'data': data})
+    if row is not None:
+        phoneNum = row["clientPhoneNumber"]
+        # row has clientPhoneNumber
+        with connection.cursor() as cursor:
+            query = "SELECT * FROM Client WHERE phoneNumber=%d;" % phoneNum
+            cursor.execute(query)
+            data = dictfetchall(cursor)
+        data = data[0]
+    else:
+        data = row
+    return render(request, "SellerObtainClientInfoResult.html", {'data': data, 'success': success})
 
 #### HELPER FUNCTIONS
 
@@ -118,7 +118,8 @@ def authenticate(username, password):
         return False
 
     with connection.cursor() as cursor:
-        query = "SELECT userPassword FROM LoginInfo WHERE LoginInfo.userName=\"%s\";" % username
+        # query = "SELECT userPassword FROM LoginInfo WHERE LoginInfo.userName=\"%s\";" % username
+        query = "SELECT userPassword FROM LoginInfo WHERE LoginInfo.userName=\"{}\";".format(username)
         cursor.execute(query)
         rows = dictfetchall(cursor)
     

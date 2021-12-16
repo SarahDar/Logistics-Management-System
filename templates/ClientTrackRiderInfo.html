@@ -12,18 +12,14 @@
     <h3>Track Packages</h3><br>    
     <h3>Rider Information</h3>   
        <p>Please enter the tracking ID of the product whose rider you want to know about</p>
-        <label><b>ID</b></label>    
-        <input type="text" name="ID" id="ID" placeholder="Tracking ID">  
-        <br>   
-           
+        <form>
+            {% csrf_token %}
+            <label><b>ID</b></label>    
+            <input type="text" name="trackingID" id="ID" placeholder="Tracking ID">  
+            <input type="submit">
+            <br>   
+        </form>
         
-        <!--  <input type="button" name="log" id="log" value="Log In Here"> -->
-        
-    
-    <a href = "ClientTrackRiderInfoResult.html" >
-     <button>Search</button>
-     </a>
-
            
      
   

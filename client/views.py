@@ -16,14 +16,80 @@ def client_home(request):
 def client_track_pack(request): 
     return render(request, 'ClientTrackPackages.html')
 
-def client_seller_info(request): #TODO: take input
-    return render(request, 'ClientObtainSellerInfo.html')
+############ CLIENT SELLER INFORMATION ####################
+def client_seller_info(request):
+    if request.method == "POST":
+        product_id = request.POST["trackingID"]
+        return client_seller_result(request, product_id)
 
-def client_prod_details(request): #TODO: take input
+    else:
+        return render(request, 'ClientObtainSellerInfo.html')
+
+def client_seller_result(request, product_id):
+    # find seller ID
+    with connection.cursor() as cursor:
+        query = "SELECT sellerID FROM SellerProduct WHERE productID = \"{}\"".format(product_id)
+        cursor.execute(query)
+        rows = dictfetchall(cursor)
+
+    if len(rows): # if result is found
+        seller_id = rows[0]["sellerID"]
+        # get seller information
+        with connection.cursor() as cursor:
+            query = "SELECT sellerName, phoneNumber, city FROM Seller WHERE sellerID = \"{}\"".format(seller_id)
+            cursor.execute(query)
+            rows = dictfetchall(cursor)
+
+        seller_information = rows[0]
+        return render(request, "ClientObtainSellerInfoResult.html", {"data": seller_information, "success": 1})
+    else:
+        return render(request, "ClientObtainSellerInfoResult.html", {"success": 0})
+
+
+
+############# CLIENT PRODUCT DETAILS ######################
+def client_prod_details(request): 
+    if request.method=='POST':
+        product_id = request.POST["trackingID"]
+        with connection.cursor() as cursor:
+            query = "SELECT * FROM Product WHERE trackingID = \"{}\"".format(product_id)
+            cursor.execute(query)
+            rows = dictfetchall(cursor)
+
+        if len(rows): # if the result comes up empty
+            productData = rows[0]
+            sellerID = productData["sellerID"]
+            with connection.cursor() as cursor:
+                query = "SELECT sellerName, phoneNumber, city FROM Seller WHERE sellerID = \"{}\";".format(sellerID)
+                cursor.execute(query)
+                rows2 = dictfetchall(cursor)
+
+            sellerData = rows2[0]
+            return render(request, "ClientTrackProductDetsResult.html", {"sellerData": sellerData, "productData": productData, "success": 1})
+        else:
+            return render(request, "ClientTrackProductDetsResult.html", {"success": 0, "data": rows})
+
     return render(request, 'ClientTrackProductDets.html')
 
-def client_rider_info(request): #TODO: take input
-    return render(request, 'ClientTrackRiderInfo.html')
+
+############# CLIENT RIDER INFORMATION ####################
+def client_rider_info(request):
+    if request.method=="POST":
+        trackingID = request["trackingID"]
+        with connection.cursor() as cursor:
+            query = "SELECT riderName, phoneNumber FROM Rider WHERE productID = \"{}\"".format(trackingID)
+            cursor.execute(query)
+            rows = dictfetchall(cursor)
+        if len(rows):
+            success = 1
+            data = rows[0]
+        else:
+            success = 0
+        return render(request, 'ClientTrackRiderInfoResult.html', {'data': data, 'success': success})
+    else:
+        return render(request, 'ClientTrackRiderInfo.html')
+
+############# CLIENT CURRENT LOCATION INFORMATION ###########
 
 def client_currentloc(request): #TODO: take input
     return render(request, 'ClientTrackCurrentLoc.html')
