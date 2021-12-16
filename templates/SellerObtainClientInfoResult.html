@@ -10,9 +10,33 @@
       <h2>Seller</h2>
       <h3>Obtain Client Information</h3>
       <h4>Result</h4>
-      
-      {% for i in data %}
-      <div> {{i}} </div>
-      {% endfor %}
+
+      {% if messages %}
+         <!-- {% for message in messages %} -->
+            <div>No client returned for the given tracking ID!</div>
+            <br><br>
+         <!-- {% endfor %} -->
+         {% else %}
+
+         <table>
+            <tr>
+              <th>Client Phone Number</th>
+              <th>Client Address</th>
+              <th>Client City</th>
+            </tr>
+   
+               {% for i in data %}
+               <div>
+            <tr>
+              <td>{{i.phoneNumber}}</td>
+              <td>{{i.clientAddress}}</td>
+              <td>{{i.city}}</td>
+            </tr>
+         </div>
+            {% endfor %}
+          </table>
+
+      {% endif %}
+
    </body>
 </html>

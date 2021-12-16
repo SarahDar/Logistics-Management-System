@@ -84,7 +84,7 @@ def seller_check_updates(request):
 
 def seller_client_info(request):
     if request.method=='POST':
-        product_id = request.POST['productid']
+        product_id = request.POST['trackingid']
         return seller_client_result(request, product_id)
     else:
         return render(request, 'SellerObtainClientInfo.html')
@@ -92,12 +92,13 @@ def seller_client_info(request):
 def seller_client_result(request, product_id):
 
     with connection.cursor() as cursor:
-        query = "SELECT clientPhoneNumber FROM ClientProduct WHERE trackingID=\"%s\";" % product_id
+        query = "SELECT clientPhoneNumber FROM ClientProduct WHERE productID=\"{}\";".format(product_id)
         cursor.execute(query)
         rows = dictfetchall(cursor)
  # only one row so we index and get first
     if not rows:
         row = None
+        messages.info(request, "product ID does not exist")
     else:
         row = rows[0]
 
@@ -118,7 +119,8 @@ def authenticate(username, password):
         return False
 
     with connection.cursor() as cursor:
-        query = "SELECT userPassword FROM LoginInfo WHERE LoginInfo.userName=\"%s\";" % username
+        # query = "SELECT userPassword FROM LoginInfo WHERE LoginInfo.userName=\"%s\";" % username
+        query = "SELECT userPassword FROM LoginInfo WHERE LoginInfo.userName=\"{}\";".format(username)
         cursor.execute(query)
         rows = dictfetchall(cursor)
     
