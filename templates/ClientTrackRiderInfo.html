@@ -12,7 +12,7 @@
     <h3>Track Packages</h3><br>    
     <h3>Rider Information</h3>   
        <p>Please enter the tracking ID of the product whose rider you want to know about</p>
-        <form>
+        <form method='POST'>
             {% csrf_token %}
             <label><b>ID</b></label>    
             <input type="text" name="trackingID" id="ID" placeholder="Tracking ID">  

@@ -23,3 +23,15 @@ VALUES ("W02", "Islamabad", "456");
 DELETE FROM LoginInfo WHERE ID = "W03";
 INSERT INTO LoginInfo(ID, userName, userPassword)
 VALUES ("W03", "Multan", "789");
+
+DELETE FROM LoginInfo WHERE ID = "R01";
+INSERT INTO LoginInfo(ID, userName, userPassword)
+VALUES ("R01", "Bashir", "789");
+
+DELETE FROM LoginInfo WHERE ID = "R02";
+INSERT INTO LoginInfo(ID, userName, userPassword)
+VALUES ("R02", "Mushtaq", "789");
+
+DELETE FROM LoginInfo WHERE ID = "R03";
+INSERT INTO LoginInfo(ID, userName, userPassword)
+VALUES ("R03", "Abd", "789");

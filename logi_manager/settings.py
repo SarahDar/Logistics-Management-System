@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'seller',
     'home',
     'warehouse',
+    'rider',
     'rest_framework'
 ]
 

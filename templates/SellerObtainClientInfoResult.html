@@ -12,10 +12,8 @@
       <h4>Result</h4>
 
       {% if not success %}
-         <!-- {% for message in messages %} -->
-            <div>No client returned for the given tracking ID!</div>
+            <div>No client returned for the given tracking ID! Please try again with a different tracking ID.</div>
             <br><br>
-         <!-- {% endfor %} -->
          {% else %}
 
          <table>
@@ -24,19 +22,17 @@
               <th>Client Address</th>
               <th>Client City</th>
             </tr>
-   
-               {% for i in data %}
+            
                <div>
             <tr>
-              <td>{{i.phoneNumber}}</td>
-              <td>{{i.clientAddress}}</td>
-              <td>{{i.city}}</td>
+              <td>{{data.phoneNumber}}</td>
+              <td>{{data.clientAddress}}</td>
+              <td>{{data.city}}</td>
             </tr>
          </div>
-               {% endfor %}
           </table>
 
       {% endif %}
-
+      
    </body>
 </html>

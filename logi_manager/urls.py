@@ -25,6 +25,7 @@ urlpatterns = [
     path('client/', include('client.urls')),
     path('seller/', include('seller.urls')),
     path('warehouse/',include('warehouse.urls')),
+    path('rider/',include('rider.urls'))
 ]   
 
 urlpatterns += staticfiles_urlpatterns()

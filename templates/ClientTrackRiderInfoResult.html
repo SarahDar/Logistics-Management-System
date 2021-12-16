@@ -29,13 +29,22 @@
       </div>
 
       <div>
-         Your order has been handed over to one of our riders! Their contact information is shown above. Please have the shown amount ready at reception for payment.
+         Your order has been handed over to one of our riders! Their contact information is shown below. Please have the
+         shown amount ready at reception for payment.
       </div>
    </table>
    {% else %}
+   <div>The tracking ID you have entered has not been handed over to any Rider yet. Please check its status or enter a
+      different tracking ID!</div>
 
-   {% endif %}
-
+   <div>
+      {% endif %}
+      <a href=''>
+         <button>
+            Return to Search Options
+         </button>
+      </a>
+   </div>
 </body>
 
 </html>

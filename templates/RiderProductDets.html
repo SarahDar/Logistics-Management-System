@@ -10,19 +10,38 @@
     <h1>Logistics Management System</h1>
     <h2>Rider</h2>
     <h3>Product Details</h3><br>       
-       <p>Please enter the tracking ID of the package you want to know about</p>
+       <!-- <p>Please enter the tracking ID of the package you want to know about</p>
     <form method='POST'>
         <label><b>ID</b></label>    
         <input type="text" name="productid" id="ID" placeholder="Tracking ID">  
-    </form>
-        <br>   
+    </form> -->
+    <table>
+        <tr>
+           <th>Tracking ID</th>
+           <th>Current Location</th>
+           <th>Product Route</th>
+           <th>Payment Status</th>
+           <th>Price</th>
+           <th>Client Phone Number</th>
            
-        
-        <!--  <input type="button" name="log" id="log" value="Log In Here"> -->
-        
+        </tr>
+  
+        <div>
+           <tr>
+              <td>{{productData.trackingID}}</td>
+              <td>{{productData.currentLocation}}</td>
+              <td>{{productData.productRoute}}</td>
+              <td>{{productData.paymentStatus}}</td>
+              <td>{{productData.price}}</td>
+              <td>{{productData.clientPhoneNumber}}</td>
+           </tr>
+        </div>
+     </table>
     
-    <a href = "RiderProductDetsResult.html" >
-     <button>Search</button>
+     <br><br>
+
+    <a href = "/rider/home" >
+     <button>Return to Home Page</button>
      </a>
 
            

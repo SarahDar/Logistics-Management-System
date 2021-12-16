@@ -5,14 +5,18 @@ from django.contrib import messages
 # Create your views here.
 
 # helper function
-def dictfetchall(cursor): 
-    desc = cursor.description 
+
+
+def dictfetchall(cursor):
+    desc = cursor.description
     return [
-            dict(zip([col[0] for col in desc], row)) 
-            for row in cursor.fetchall() 
+        dict(zip([col[0] for col in desc], row))
+        for row in cursor.fetchall()
     ]
 
 ################## HOME PAGE STUFF ############################
+
+
 def home_wargs(request, id):
     # for testing purposes, we are returning obtain seller related product information
     with connection.cursor() as cursor:
@@ -22,8 +26,9 @@ def home_wargs(request, id):
 
     return render(request, 'SellerMenu.html')
 
+
 def login(request):
-    if request.method=='POST':
+    if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
         # username = 'sellerID'
@@ -35,19 +40,21 @@ def login(request):
             request.session["ID"] = id
             return home_wargs(request, id)
         else:
-            return redirect('/seller') # add 
+            return redirect('/seller')  # add
 
     else:
         return render(request, 'SellerLogin.html')
 
 ################################ SELLER TRACK PACKAGES ###################################
 
+
 def seller_track_pack(request):
-    if request.method=='POST':
+    if request.method == 'POST':
         product_id = request.POST['productid']
         return seller_track_pack_res(request, product_id)
     else:
         return render(request, 'SellerTrackProductDets.html')
+
 
 def seller_track_pack_res(request, prod_id):
     with connection.cursor() as cursor:
@@ -80,16 +87,18 @@ def seller_check_updates(request):
 
 def seller_client_info(request):
 
-    if request.method=='POST':
+    if request.method == 'POST':
         product_id = request.POST['trackingid']
         return seller_client_result(request, product_id)
     else:
         return render(request, 'SellerObtainClientInfo.html')
 
+
 def seller_client_result(request, product_id):
 
     with connection.cursor() as cursor:
-        query = "SELECT clientPhoneNumber FROM ClientProduct WHERE productID=\"{}\";".format(product_id)
+        query = "SELECT clientPhoneNumber FROM Product WHERE trackingID=\"{}\";".format(
+            product_id)
         cursor.execute(query)
         rows = dictfetchall(cursor)
  # only one row so we index and get first
@@ -101,17 +110,20 @@ def seller_client_result(request, product_id):
 
     if row is not None:
         phoneNum = row["clientPhoneNumber"]
+        success = 1
         # row has clientPhoneNumber
         with connection.cursor() as cursor:
-            query = "SELECT * FROM Client WHERE phoneNumber=%d;" % phoneNum
+            query = "SELECT * FROM Client WHERE phoneNumber={};".format(phoneNum) 
             cursor.execute(query)
             data = dictfetchall(cursor)
         data = data[0]
     else:
+        success = 0
         data = row
     return render(request, "SellerObtainClientInfoResult.html", {'data': data, 'success': success})
 
-#### HELPER FUNCTIONS
+# HELPER FUNCTIONS
+
 
 def authenticate(username, password):
     if username == "":
@@ -119,10 +131,11 @@ def authenticate(username, password):
 
     with connection.cursor() as cursor:
         # query = "SELECT userPassword FROM LoginInfo WHERE LoginInfo.userName=\"%s\";" % username
-        query = "SELECT userPassword FROM LoginInfo WHERE LoginInfo.userName=\"{}\";".format(username)
+        query = "SELECT userPassword FROM LoginInfo WHERE LoginInfo.userName=\"{}\";".format(
+            username)
         cursor.execute(query)
         rows = dictfetchall(cursor)
-    
+
     if rows is not None:
         for row in rows:
             if row["userPassword"] == password:
@@ -132,6 +145,7 @@ def authenticate(username, password):
         return False
     else:
         return False
+
 
 def get_id(username):
     with connection.cursor() as cursor:

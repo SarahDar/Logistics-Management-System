@@ -11,6 +11,31 @@
       <h3>Track Packages</h3>
       <h4>Current Location</h4>
       <h5>Result</h5>
+      {% if success %}
+      <div>Your current location of your package is given below: <br>
+         <table>
+            <tr>
+               <th>Tracking ID</th>
+               <th>Current Location</th>
+            </tr>
       
+            <div>
+               <tr>
+                  <td>{{trackingID}}</td>
+                  <td>{{data.currentLocation}}</td>
+               </tr>
+            </div>
+            </table>
+      </div>
+
+      {% else %}
+      <div>The product ID you have provided is not valid. Please return to the previous page and try again!</div>
+      {% endif %}
+      <br>
+      <a href=''>
+         <button>
+            Return to Search Options
+         </button>
+      </a>
    </body>
 </html>
