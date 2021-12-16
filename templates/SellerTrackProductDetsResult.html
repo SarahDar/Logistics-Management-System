@@ -12,10 +12,33 @@
       <h4>Product Details</h4>
       <h5>Result</h5>
 
-      {{data}}
-      {% for i in data %}
-      <!-- <div> {{i.trackingID}} - {{i.sellerID}}- {{i.warehouseID}}- {{i.currentLocation}}- {{i.productRoute}}- {{i.paymentStatus}}- {{i.price}}- {{i.clientPhoneNumber}} </div> -->
-      <div> {{i}} </div>
+      <table>
+         <tr>
+           <th>Tracking ID</th>
+           <th>Seller ID</th>
+           <th>Warehouse ID</th>
+           <th>Current Location</th>
+           <th>Product Route</th>
+           <th>Payment Status</th>
+           <th>Price</th>
+           <th>Client Phone Number</th>
+         </tr>
+
+            {% for i in data %}
+            <div>
+         <tr>
+           <td>{{i.trackingID}}</td>
+           <td>{{i.sellerID}}</td>
+           <td>{{i.warehouseID}}</td>
+           <td>{{i.currentLocation}}</td>
+           <td>{{i.productRoute}}</td>
+           <td>{{i.paymentStatus}}</td>
+           <td>{{i.price}}</td>
+           <td>{{i.clientPhoneNumber}}</td>
+         </tr>
+      </div>
       {% endfor %}
+       </table>
+
    </body>
 </html>
