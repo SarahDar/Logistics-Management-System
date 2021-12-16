@@ -55,7 +55,7 @@ def client_prod_details(request):
             query = "SELECT * FROM Product WHERE trackingID = \"{}\"".format(product_id)
             cursor.execute(query)
             rows = dictfetchall(cursor)
-            
+
         if len(rows): # if the result comes up empty
             productData = rows[0]
             sellerID = productData["sellerID"]
@@ -73,9 +73,21 @@ def client_prod_details(request):
 
 
 ############# CLIENT RIDER INFORMATION ####################
-def client_rider_info(request): #TODO: take input
-    return render(request, 'ClientTrackRiderInfo.html')
-
+def client_rider_info(request):
+    if request.method=="POST":
+        trackingID = request["trackingID"]
+        with connection.cursor() as cursor:
+            query = "SELECT riderName, phoneNumber FROM Rider WHERE productID = \"{}\"".format(trackingID)
+            cursor.execute(query)
+            rows = dictfetchall(cursor)
+        if len(rows):
+            success = 1
+            data = rows[0]
+        else:
+            success = 0
+        return render(request, 'ClientTrackRiderInfoResult.html', {'data': data, 'success': success})
+    else:
+        return render(request, 'ClientTrackRiderInfo.html')
 
 ############# CLIENT CURRENT LOCATION INFORMATION ###########
 

@@ -11,7 +11,7 @@
       <h3>Obtain Client Information</h3>
       <h4>Result</h4>
 
-      {% if messages %}
+      {% if not success %}
          <!-- {% for message in messages %} -->
             <div>No client returned for the given tracking ID!</div>
             <br><br>
@@ -33,7 +33,7 @@
               <td>{{i.city}}</td>
             </tr>
          </div>
-            {% endfor %}
+               {% endfor %}
           </table>
 
       {% endif %}

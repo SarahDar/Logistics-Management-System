@@ -20,10 +20,12 @@ DESCRIBE ClientProduct;
 DROP TABLE IF EXISTS LoginInfo;
 CREATE TABLE LoginInfo (ID char(10),
                         userName char(10),
-                        userPassword char(20),
-                        CONSTRAINT identifier PRIMARY KEY (ID)
-                        UNIQUE (userName));
+                        userPassword char(20),     
+                        CONSTRAINT uniqueness UNIQUE (userName),
+                        CONSTRAINT primary_login PRIMARY KEY (ID));
 DESCRIBE LoginInfo;
+
+CONSTRAINT identifier PRIMARY KEY (ID)
 
 DROP TABLE IF EXISTS Client;
 CREATE TABLE Client(phoneNumber char(11),
@@ -62,6 +64,7 @@ DESCRIBE Product;
 DROP TABLE IF EXISTS Rider;
 CREATE TABLE Rider (riderID char(10),
                     riderName char(30),
+                    phoneNumber char(11),
                     warehouseID char(10),
                     productID char(10),
                     CONSTRAINT identifier PRIMARY KEY (riderID));

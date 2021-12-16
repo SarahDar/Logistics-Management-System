@@ -35,7 +35,6 @@ def login(request):
             request.session["ID"] = id
             return home_wargs(request, id)
         else:
-            messages.info(request, "invalid credentials")
             return redirect('/seller') # add 
 
     else:
@@ -96,7 +95,7 @@ def seller_client_result(request, product_id):
  # only one row so we index and get first
     if not rows:
         row = None
-        messages.info(request, "product ID does not exist")
+        success = False
     else:
         row = rows[0]
 
@@ -110,7 +109,7 @@ def seller_client_result(request, product_id):
         data = data[0]
     else:
         data = row
-    return render(request, "SellerObtainClientInfoResult.html", {'data': data})
+    return render(request, "SellerObtainClientInfoResult.html", {'data': data, 'success': success})
 
 #### HELPER FUNCTIONS
 
