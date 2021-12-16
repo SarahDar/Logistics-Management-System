@@ -12,7 +12,6 @@ def dictfetchall(cursor):
             for row in cursor.fetchall() 
     ]
 
-
 ################## HOME PAGE STUFF ############################
 def home_wargs(request, id):
     # for testing purposes, we are returning obtain seller related product information
@@ -22,7 +21,6 @@ def home_wargs(request, id):
         rows = dictfetchall(cursor)
 
     return render(request, 'SellerMenu.html')
-
 
 def login(request):
     if request.method=='POST':
@@ -42,7 +40,6 @@ def login(request):
 
     else:
         return render(request, 'SellerLogin.html')
-
 
 ################################ SELLER TRACK PACKAGES ###################################
 
@@ -83,6 +80,7 @@ def seller_check_updates(request):
 ####################### SELLER GET CLIENT INFORMATION ################################
 
 def seller_client_info(request):
+
     if request.method=='POST':
         product_id = request.POST['trackingid']
         return seller_client_result(request, product_id)
@@ -102,14 +100,16 @@ def seller_client_result(request, product_id):
     else:
         row = rows[0]
 
-    phoneNum = row["clientPhoneNumber"]
-    print(phoneNum)
-    # row has clientPhoneNumber
-    with connection.cursor() as cursor:
-        query = "SELECT * FROM Client WHERE phoneNumber=%d;" % phoneNum
-        cursor.execute(query)
-        data = dictfetchall(cursor)
-    data = data[0]
+    if row is not None:
+        phoneNum = row["clientPhoneNumber"]
+        # row has clientPhoneNumber
+        with connection.cursor() as cursor:
+            query = "SELECT * FROM Client WHERE phoneNumber=%d;" % phoneNum
+            cursor.execute(query)
+            data = dictfetchall(cursor)
+        data = data[0]
+    else:
+        data = row
     return render(request, "SellerObtainClientInfoResult.html", {'data': data})
 
 #### HELPER FUNCTIONS

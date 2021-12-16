@@ -15,7 +15,8 @@ VALUES ("warehouseID", "city");
 INSERT INTO Product(trackingID, sellerID, warehouseID, currentLocation, productRoute, paymentStatus, price, clientPhoneNumber)
 VALUES ("trackingID", "sellerID", "warehouseID", "currentLocation", "productRoute", "paymentStatus", "price", "clientPhoneNumber");
 
-INSERT INTO SellerProduct(sellerID, productID, weightPrice, deliveryPrice, sellerPrice) VALUES ("sellerID", "productID", "weightPrice", "deliveryPrice", "sellerPrice");
+INSERT INTO SellerProduct(sellerID, productID, weightPrice, deliveryPrice, sellerPrice) 
+VALUES ("sellerID", "productID", "weightPrice", "deliveryPrice", "sellerPrice");
 
 INSERT INTO ClientProduct(clientPhoneNumber, productID, deliveryAddress)
 VALUES ("clientPhoneNumber", "productID", "deliveryAddress");

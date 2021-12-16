@@ -21,7 +21,8 @@ DROP TABLE IF EXISTS LoginInfo;
 CREATE TABLE LoginInfo (ID char(10),
                         userName char(10),
                         userPassword char(20),
-                        CONSTRAINT identifier PRIMARY KEY (ID));
+                        CONSTRAINT identifier PRIMARY KEY (ID)
+                        UNIQUE (userName));
 DESCRIBE LoginInfo;
 
 DROP TABLE IF EXISTS Client;
