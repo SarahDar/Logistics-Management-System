@@ -38,7 +38,7 @@ def login(request):
             return home_wargs(request, id)
         else:
             messages.info(request, "invalid credentials")
-            return redirect('/seller')
+            return redirect('/seller') # add 
 
     else:
         return render(request, 'SellerLogin.html')
