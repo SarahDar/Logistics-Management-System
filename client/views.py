@@ -104,7 +104,7 @@ def client_currentloc(request): # TODO: Check if current location needs to be up
     if request.method == 'POST':
         trackingID = request.POST["trackingID"]
         with connection.cursor() as cursor:
-            query = "SELECT currentLocation FROM Product WHERE trackingID = \"{}\"".format(trackingID)
+            query = "SELECT Warehouse.city FROM Product,Warehouse WHERE Product.trackingID = \"{}\" AND Warehouse.warehouseID = Product.currentLocation".format(trackingID)
             cursor.execute(query)
             rows = dictfetchall(cursor)
         if len(rows) > 0:
