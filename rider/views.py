@@ -18,8 +18,8 @@ def login(request):
         logged_in = authenticate(username, password)
 
         if logged_in:
-            id = get_id(username)
-            request.session["ID"] = id
+            # id = get_id(username)
+            request.session["ID"] = username
             return redirect('/rider/home')
         else:
             return redirect('/rider')  # add
@@ -37,7 +37,7 @@ def get_client_information(request):
             riderID)
         cursor.execute(query)
         rows = dictfetchall(cursor)
-    if not rows:
+    if rows:
         row = rows[0]
 
         product_id = row["productID"]
@@ -47,7 +47,10 @@ def get_client_information(request):
                 product_id)
             cursor.execute(query)
             rows = dictfetchall(cursor)
-        productData = rows[0]
+        if rows:
+            productData = rows[0]
+        else:
+            productData = None
     else:
         productData = None
 
@@ -79,7 +82,7 @@ def get_seller_information(request):
         cursor.execute(query)
         rows = dictfetchall(cursor)
 
-    if not rows:
+    if rows:
         row = rows[0]
 
         product_id = row["productID"]
@@ -89,7 +92,10 @@ def get_seller_information(request):
                 product_id)
             cursor.execute(query)
             rows = dictfetchall(cursor)
-        productData = rows[0]
+        if rows:
+            productData = rows[0]
+        else:
+            productData = None
     else:
         productData = None
 
@@ -118,7 +124,7 @@ def get_product_details(request):
             riderID)
         cursor.execute(query)
         rows = dictfetchall(cursor)
-    if not rows:
+    if rows:
         row = rows[0]
 
         product_id = row["productID"]
@@ -128,7 +134,10 @@ def get_product_details(request):
                 product_id)
             cursor.execute(query)
             rows = dictfetchall(cursor)
-        productData = rows[0]
+        if rows:
+            productData = rows[0]
+        else:
+            productData = None
     else:
         productData = None
 
@@ -144,7 +153,7 @@ def get_finances(request):
             riderID)
         cursor.execute(query)
         rows = dictfetchall(cursor)
-    if not rows:
+    if rows:
         row = rows[0]
 
         product_id = row["productID"]
@@ -154,7 +163,10 @@ def get_finances(request):
                 product_id)
             cursor.execute(query)
             rows = dictfetchall(cursor)
-        productData = rows[0]
+        if rows:
+            productData = rows[0]
+        else:
+            productData = None
     else:
         productData = None
 
@@ -172,6 +184,9 @@ def get_finances(request):
             with connection.cursor() as cursor:
                 query = "UPDATE Rider SET Rider.productID = NULL WHERE riderID=\"{}\"".format(
                     riderID)
+                cursor.execute(query)
+            with connection.cursor() as cursor:
+                query = "UPDATE Product SET Product.currentLocation = \"Delivered\";"
                 cursor.execute(query)
 
         with connection.cursor() as cursor:
@@ -227,7 +242,7 @@ def authenticate(username, password):
 
 def get_id(username):
     with connection.cursor() as cursor:
-        query = "SELECT userName FROM LoginInfo WHERE LoginInfo.ID=\"%s\";" % username
+        query = "SELECT ID FROM LoginInfo WHERE LoginInfo.ID=\"%s\";" % username
         cursor.execute(query)
         rows = dictfetchall(cursor)
 
