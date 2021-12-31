@@ -4,3 +4,4 @@ INSERT INTO Product(trackingID, sellerID, warehouseID, currentLocation,
 VALUES ("P01", "S01", "W03", "W03", 
         "Lahore/Islamabad/Multan", 0, 1200, "03014884962");
 UPDATE MAXID SET MAXID.products = MAXID.products+1;
+
