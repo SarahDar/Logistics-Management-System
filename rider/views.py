@@ -53,23 +53,35 @@ def get_client_information(request):
             productData = None
     else:
         productData = None
-
-    if request.method == 'POST':
-        # get client information using the product id
-        if productData:
-            clientPhoneNumber = productData["clientPhoneNumber"]
-            with connection.cursor() as cursor:
-                query = "SELECT * FROM Client WHERE Client.phoneNumber=\"{}\";".format(
-                    clientPhoneNumber)
-                cursor.execute(query)
-                rows = dictfetchall(cursor)
-            clientData = rows[0]
-        else:
-            clientData = None
-
-        return render(request, "RiderObtainClientInfoResult.html", {"clientData": clientData})
+    if productData:
+        clientPhoneNumber = productData["clientPhoneNumber"]
+        with connection.cursor() as cursor:
+            query = "SELECT * FROM Client WHERE Client.phoneNumber=\"{}\";".format(
+                clientPhoneNumber)
+            cursor.execute(query)
+            rows = dictfetchall(cursor)
+        clientData = rows[0]
     else:
-        return render(request, "RiderObtainClientInfo.html", {"productData": productData})
+        clientData = None
+
+    return render(request, "RiderObtainClientInfoResult.html", {"clientData": clientData})
+
+    # if request.method == 'POST':
+    #     # get client information using the product id
+    #     if productData:
+    #         clientPhoneNumber = productData["clientPhoneNumber"]
+    #         with connection.cursor() as cursor:
+    #             query = "SELECT * FROM Client WHERE Client.phoneNumber=\"{}\";".format(
+    #                 clientPhoneNumber)
+    #             cursor.execute(query)
+    #             rows = dictfetchall(cursor)
+    #         clientData = rows[0]
+    #     else:
+    #         clientData = None
+
+    #     return render(request, "RiderObtainClientInfoResult.html", {"clientData": clientData})
+    # else:
+    #     return render(request, "RiderObtainClientInfo.html", {"productData": productData})
 
 
 # OBTAIN SELLER INFORMATION
@@ -99,8 +111,7 @@ def get_seller_information(request):
     else:
         productData = None
 
-    if request.method == 'POST':
-        if productData:
+    if productData:
             sellerID = productData["sellerID"]
             with connection.cursor() as cursor:
                 query = "SELECT * FROM Seller WHERE Seller.sellerID=\"{}\";".format(
@@ -108,11 +119,24 @@ def get_seller_information(request):
                 cursor.execute(query)
                 rows = dictfetchall(cursor)
             sellerData = rows[0]
-        else:
-            sellerData = None
-        return render(request, 'RiderObtainSellerInfoResult.html', {"sellerData": sellerData})
     else:
-        return render(request, 'RiderObtainSellerInfo.html', {"productData": productData})
+        sellerData = None
+    return render(request, 'RiderObtainSellerInfoResult.html', {"sellerData": sellerData})
+
+    # if request.method == 'POST':
+    #     if productData:
+    #         sellerID = productData["sellerID"]
+    #         with connection.cursor() as cursor:
+    #             query = "SELECT * FROM Seller WHERE Seller.sellerID=\"{}\";".format(
+    #                 sellerID)
+    #             cursor.execute(query)
+    #             rows = dictfetchall(cursor)
+    #         sellerData = rows[0]
+    #     else:
+    #         sellerData = None
+    #     return render(request, 'RiderObtainSellerInfoResult.html', {"sellerData": sellerData})
+    # else:
+    #     return render(request, 'RiderObtainSellerInfo.html', {"productData": productData})
 
 
 # ACCESS PRODUCT DETAILS
@@ -144,7 +168,7 @@ def get_product_details(request):
     return render(request, 'RiderProductDets.html', {"productData": productData})
 
 
-# FINANCES
+# FINANCES, using this to mark completed delivery. not keeping track of actual finances for now
 def get_finances(request):
     riderID = request.session["ID"]
 

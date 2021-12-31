@@ -117,11 +117,11 @@ def client_currentloc(request): # TODO: Check if current location needs to be up
                         city = rows[0]
             else:
                 with connection.cursor() as cursor:
-                    query = "SELECT Warehouse.city FROM Product,Warehouse WHERE Product.trackingID = \"{}\" AND Warehouse.warehouseID = Product.currentLocation".format(trackingID)
+                    query = "SELECT Warehouse.city, Product.currentLocation FROM Product,Warehouse WHERE Product.trackingID = \"{}\" AND Warehouse.warehouseID = Product.warehouseID".format(trackingID)
                     cursor.execute(query)
                     rows = dictfetchall(cursor)
                     if len(rows) > 0:
-                        data['currentLocation'] = "Warehouse"
+                        # data['currentLocation'] = "Warehouse"
                         city = rows[0]
             return render(request, 'ClientTrackCurrLocResult.html', {'data': data, 'city':city ,'trackingID': trackingID, 'success': 1})
         else:
