@@ -131,6 +131,7 @@ def authenticate(username, password):
 
     with connection.cursor() as cursor:
         # query = "SELECT userPassword FROM LoginInfo WHERE LoginInfo.userName=\"%s\";" % username
+        # CHANGE: change LoginInfo.userName to LoginInfo.ID
         query = "SELECT userPassword FROM LoginInfo WHERE LoginInfo.ID=\"{}\";".format(
             username)
         cursor.execute(query)
@@ -149,6 +150,7 @@ def authenticate(username, password):
 
 def get_id(username):
     with connection.cursor() as cursor:
+        # CHANGE: change LoginInfo.userName to LoginInfo.ID
         query = "SELECT ID FROM LoginInfo WHERE LoginInfo.ID=\"%s\";" % username
         cursor.execute(query)
         rows = dictfetchall(cursor)

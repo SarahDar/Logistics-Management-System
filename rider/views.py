@@ -29,7 +29,6 @@ def login(request):
 
 # OBTAIN CLIENT INFORMATION
 
-
 def get_client_information(request):
     riderID = request.session["ID"]
 
@@ -228,7 +227,7 @@ def authenticate(username, password):
 
 def get_id(username):
     with connection.cursor() as cursor:
-        query = "SELECT ID FROM LoginInfo WHERE LoginInfo.ID=\"%s\";" % username
+        query = "SELECT userName FROM LoginInfo WHERE LoginInfo.ID=\"%s\";" % username
         cursor.execute(query)
         rows = dictfetchall(cursor)
 
