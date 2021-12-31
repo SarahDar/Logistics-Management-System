@@ -32,7 +32,7 @@ def login(request):
         username = request.POST['username']
         password = request.POST['password']
         # username = 'sellerID'
-
+        password = hashlib.sha256(password.encode()).hexdigest()
         logged_in = authenticate(username, password)
 
         if logged_in:
