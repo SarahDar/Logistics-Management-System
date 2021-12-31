@@ -2,6 +2,7 @@ from django.shortcuts import redirect, render
 from django.db import connection
 from django.contrib import messages
 from copy import deepcopy
+import hashlib
 
 # Create your views here.
 def dictfetchall(cursor): 
@@ -23,6 +24,7 @@ def login(request):
     if request.method=='POST':
         username = request.POST['city']
         password = request.POST['password']
+        password = hashlib.sha256(password.encode()).hexdigest()
 
         logged_in = authenticate(username, password)
 
@@ -198,7 +200,6 @@ def rider_exists(riderID,warehouseID):
     else:
         return False
 
-
 def add_product(request):
     return render(request, "WarehouseAddProduct.html") 
 
@@ -254,7 +255,7 @@ def old_seller(request):
                 with connection.cursor() as cursor: # CREATE PRODUCT
                     q3 = "INSERT INTO Product(trackingID, sellerID, warehouseID, currentLocation, productRoute, paymentStatus, price, clientPhoneNumber) VALUES (\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\");".format(trackingID, sellerID, warehouseID, currentLocation, productRoute, paymentStatus, price, clientPhoneNumber)
                     cursor.execute(q3)  
-                return render(request, 'WarehouseAdded.html')       
+                return render(request, 'WarehouseAdded.html',{'sellerID': sellerID,'productID':trackingID})       
             else:
                 return redirect(register_client)  
         else:
@@ -270,11 +271,13 @@ def new_seller(request):
         clientPhoneNumber = request.POST['clientphone']
         sellerName = request.POST['name']
         sellerPhoneNumber = request.POST['sellerphone']
+        sellerPass = request.POST['sellerpass']
         
         request.session["price"] = price
         request.session["clientPhoneNumber"] = clientPhoneNumber
         request.session["sellerName"] = sellerName
         request.session["sellerPhoneNumber"] = sellerPhoneNumber
+        request.session["sellerPassword"] = hashlib.sha256(sellerPass.encode()).hexdigest()
         
         # GET NUM OF SELLERS AND PRODUCTS
         with connection.cursor() as cursor:
@@ -308,6 +311,11 @@ def new_seller(request):
             q1 = "INSERT INTO Seller(sellerID, sellerName, phoneNumber, city) VALUES (\"{}\",\"{}\",\"{}\",\"{}\");".format(sellerID, sellerName, sellerPhoneNumber, sellerCity)
             cursor.execute(q1)
         
+        # CREATE LOGIN FOR SELLER
+        with connection.cursor() as cursor:
+            q2 = "INSERT INTO LoginInfo(ID, userName, userPassword) VALUES (\"{}\",\"{}\",\"{}\");".format(sellerID, sellerName, request.session["sellerPassword"])
+            cursor.execute(q2)
+            
         old_client = client_exists(clientPhoneNumber)
         
         if old_client: # CLIENT EXISTS
@@ -321,7 +329,7 @@ def new_seller(request):
             with connection.cursor() as cursor: # CREATE PRODUCT
                 q3 = "INSERT INTO Product(trackingID, sellerID, warehouseID, currentLocation, productRoute, paymentStatus, price, clientPhoneNumber) VALUES (\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\");".format(trackingID, sellerID, warehouseID, currentLocation, productRoute, paymentStatus, price, clientPhoneNumber)
                 cursor.execute(q3)  
-            return render(request, 'WarehouseAdded.html')       
+            return render(request, 'WarehouseAdded.html',{'sellerID': sellerID,'productID':trackingID})       
         else:
             # request.method = 'GET'
             return redirect(register_client)   
