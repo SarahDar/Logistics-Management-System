@@ -11,7 +11,6 @@ def dictfetchall(cursor):
         for row in cursor.fetchall()
     ]
 
-
 def client_home(request):
     return render(request, 'ClientMenu.html')
 
@@ -104,12 +103,27 @@ def client_currentloc(request): # TODO: Check if current location needs to be up
     if request.method == 'POST':
         trackingID = request.POST["trackingID"]
         with connection.cursor() as cursor:
-            query = "SELECT currentLocation FROM Product WHERE trackingID = \"{}\"".format(trackingID)
+            query = "SELECT Product.currentLocation FROM Product WHERE Product.trackingID = \"{}\" ".format(trackingID)
             cursor.execute(query)
             rows = dictfetchall(cursor)
         if len(rows) > 0:
             data = rows[0]
-            return render(request, 'ClientTrackCurrLocResult.html', {'data': data, 'trackingID': trackingID, 'success': 1})
+            if data['currentLocation'] == "Rider":
+                with connection.cursor() as cursor:
+                    query = "SELECT Warehouse.city FROM Product,Rider,Warehouse WHERE Product.trackingID = \"{}\" AND Rider.productID = Product.trackingID AND Warehouse.warehouseID = Rider.warehouseID".format(trackingID)
+                    cursor.execute(query)
+                    rows = dictfetchall(cursor)
+                    if len(rows) > 0:
+                        city = rows[0]
+            else:
+                with connection.cursor() as cursor:
+                    query = "SELECT Warehouse.city FROM Product,Warehouse WHERE Product.trackingID = \"{}\" AND Warehouse.warehouseID = Product.currentLocation".format(trackingID)
+                    cursor.execute(query)
+                    rows = dictfetchall(cursor)
+                    if len(rows) > 0:
+                        data['currentLocation'] = "Warehouse"
+                        city = rows[0]
+            return render(request, 'ClientTrackCurrLocResult.html', {'data': data, 'city':city ,'trackingID': trackingID, 'success': 1})
         else:
             return render(request, 'ClientTrackCurrLocResult.html', {'success': 0})
     else:

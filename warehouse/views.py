@@ -11,7 +11,6 @@ def dictfetchall(cursor):
             for row in cursor.fetchall() 
     ]
 
-
 def home(request):
     # for testing purposes, we are returning obtain seller related product information
     # with connection.cursor() as cursor:
@@ -66,7 +65,6 @@ def get_id(username):
 
     id = rows[0]
     return id["ID"]
-
 
 def inventory(request):
     with connection.cursor() as cursor:
@@ -150,7 +148,6 @@ def product_exists(product, id):
         return False
     else:
         return False
-
 
 def deliver_products(request):
     if request.method=='POST':

@@ -3,6 +3,7 @@ Please run these scripts in your database in the following order:
 setup.sql
 createTables.sql
 alterTables.sql
+Count.sql
 Seller.sql
 Client.sql
 Warehouse.sql
