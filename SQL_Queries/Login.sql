@@ -34,10 +34,6 @@ INSERT INTO LoginInfo(ID, userName, userPassword)
 -- VALUES ("W03", "Multan", "789");
 VALUES ("W03", "Multan", "35a9e381b1a27567549b5f8a6f783c167ebf809f1c4d6a9e367240484d8ce281");
 
-DELETE FROM LoginInfo WHERE ID = "W04";
-INSERT INTO LoginInfo(ID, userName, userPassword)
-VALUES ("W04", "Karachi", "abc");
-
 -- Rider Logins
 DELETE FROM LoginInfo WHERE ID = "R01";
 INSERT INTO LoginInfo(ID, userName, userPassword)
@@ -58,5 +54,4 @@ DELETE FROM LoginInfo WHERE ID = "W04";
 INSERT INTO LoginInfo(ID, userName, userPassword)
 -- VALUES ("W04", "Karachi", "abc");
 VALUES ("W04", "Karachi", "35a9e381b1a27567549b5f8a6f783c167ebf809f1c4d6a9e367240484d8ce281");
-VALUES ("R03", "Abd", "789");
 
