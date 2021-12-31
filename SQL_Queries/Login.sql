@@ -14,6 +14,10 @@ INSERT INTO LoginInfo(ID, userName, userPassword)
 -- VALUES ("S03", "Sarah", "HTML");
 VALUES ("S03", "Sarah", "07239dbd2a1a1dd793be9062a205eb6be88c36af3fe7e4d6426aea45aa253815");
 
+DELETE FROM LoginInfo WHERE ID = "S04";
+INSERT INTO LoginInfo(ID, userName, userPassword)
+VALUES ("S04", "ABD", "LJ420");
+
 -- Warehouse Logins
 DELETE FROM LoginInfo WHERE ID = "W01";
 INSERT INTO LoginInfo(ID, userName, userPassword)
@@ -30,6 +34,11 @@ INSERT INTO LoginInfo(ID, userName, userPassword)
 -- VALUES ("W03", "Multan", "789");
 VALUES ("W03", "Multan", "35a9e381b1a27567549b5f8a6f783c167ebf809f1c4d6a9e367240484d8ce281");
 
+DELETE FROM LoginInfo WHERE ID = "W04";
+INSERT INTO LoginInfo(ID, userName, userPassword)
+VALUES ("W04", "Karachi", "abc");
+
+-- Rider Logins
 DELETE FROM LoginInfo WHERE ID = "R01";
 INSERT INTO LoginInfo(ID, userName, userPassword)
 -- VALUES ("R01", "Bashir", "789");
@@ -49,3 +58,5 @@ DELETE FROM LoginInfo WHERE ID = "W04";
 INSERT INTO LoginInfo(ID, userName, userPassword)
 -- VALUES ("W04", "Karachi", "abc");
 VALUES ("W04", "Karachi", "35a9e381b1a27567549b5f8a6f783c167ebf809f1c4d6a9e367240484d8ce281");
+VALUES ("R03", "Abd", "789");
+
